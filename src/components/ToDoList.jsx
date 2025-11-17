@@ -1,7 +1,16 @@
-import { ToDoItem } from "./ToDoItem";
+import { memo } from "react";
+
+import ToDoItem from "./ToDoItem";
 
 const ToDoList = (props) => {
-	const { tasks = [], filteredTasks, onDeleteTaskButtonClick, onTaskCompletedChange } = props;
+	const {
+		tasks = [],
+		filteredTasks,
+		onDeleteTaskButtonClick,
+		onTaskCompletedChange,
+		firstIncompleteTaskId,
+		firstIncompleteTaskRef
+	} = props;
 	const hasTasks = tasks.length > 0;
 	const isEmptyFilteredTasks = filteredTasks?.length === 0;
 
@@ -21,6 +30,7 @@ const ToDoList = (props) => {
 					className="todo__item"
 					onDeleteTaskButtonClick={onDeleteTaskButtonClick}
 					onTaskCompletedChange={onTaskCompletedChange}
+					ref={task.id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}
 					{...task}
 				/>
 			))}
@@ -28,4 +38,4 @@ const ToDoList = (props) => {
 	);
 };
 
-export { ToDoList };
+export default memo(ToDoList);
