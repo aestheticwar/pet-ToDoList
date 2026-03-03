@@ -1,19 +1,15 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import useTasksLocalStorage from "./useTasksLocalStorage";
+import tasksAPI from "../api/tasksAPI";
 
 const useTasks = () => {
-	const { savedTasks, saveTasks } = useTasksLocalStorage();
-	const [tasks, setTasks] = useState(savedTasks ?? []);
+	const [tasks, setTasks] = useState([]);
 	const [newTaskTitle, setNewTaskTitle] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
 
 	const newTaskInputRef = useRef(null);
 
 	useEffect(() => {
-		saveTasks(tasks);
-	}, [tasks]);
-
-	useEffect(() => {
+		tasksAPI.getAll().then(setTasks);
 		newTaskInputRef.current.focus();
 	}, []);
 
@@ -21,49 +17,52 @@ const useTasks = () => {
 		const isConfirm = confirm("Are you sure you want to delete tasks?");
 
 		if (isConfirm) {
-			setTasks([]);
+			tasksAPI.deleteAll(tasks).then(() => setTasks([]));
 		}
 		newTaskInputRef.current.focus();
-	}, []);
+	}, [tasks]);
 
 	const deleteTask = useCallback(
 		(task_id) => {
 			const deleteTaskName = tasks.find((task) => task.id === task_id).title;
 			const isConfirm = confirm(
-				`Are you sure you want to delete task with name: ${deleteTaskName}?`
+				`Are you sure you want to delete task with name: ${deleteTaskName}?`,
 			);
 			if (isConfirm) {
-				setTasks(tasks.filter((task) => task.id !== task_id));
+				tasksAPI.delete(task_id).then(() => {
+					setTasks(tasks.filter((task) => task.id !== task_id));
+				});
 			}
 			newTaskInputRef.current.focus();
 		},
-		[tasks]
+		[tasks],
 	);
 
 	const toogleTaskCompleted = useCallback(
-		(task_id, isDone) => {
-			setTasks(
-				tasks.map((task) => {
-					if (task.id === task_id) {
-						return { ...task, isDone };
-					} else return task;
-				})
-			);
-		},
-		[tasks]
+		(task_id, isDone) =>
+			tasksAPI.toogleComplite(task_id, isDone).then(() => {
+				setTasks(
+					tasks.map((task) => {
+						if (task.id === task_id) {
+							return { ...task, isDone };
+						} else return task;
+					}),
+				);
+			})[tasks],
 	);
 
 	const addTask = useCallback(() => {
 		if (newTaskTitle.trim().length > 0) {
 			const newTask = {
-				id: crypto?.randomUUID() ?? Date.now().toString(),
 				title: newTaskTitle,
 				isDone: false,
 			};
-			setTasks((prevState) => [...prevState, newTask]);
-			setNewTaskTitle("");
-			setSearchQuery("");
-			newTaskInputRef.current.focus();
+			tasksAPI.add(newTask).then((addedTask) => {
+				setTasks((prevState) => [...prevState, addedTask]);
+				setNewTaskTitle("");
+				setSearchQuery("");
+				newTaskInputRef.current.focus();
+			});
 		}
 	}, [newTaskTitle]);
 
@@ -72,7 +71,7 @@ const useTasks = () => {
 		return clearedSearchQuery.length > 0
 			? tasks.filter((task) => {
 					return task.title.toLowerCase().includes(searchQuery.toLowerCase());
-			  })
+				})
 			: null;
 	}, [tasks, searchQuery]);
 
