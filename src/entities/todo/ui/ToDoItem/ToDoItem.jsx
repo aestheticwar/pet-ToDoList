@@ -1,8 +1,8 @@
 import { memo, useContext } from "react";
 import { TasksContext } from "../../model/TasksContext";
-import { RouterLink } from "@/shared/ui/RouterLink";
 import styles from "./ToDoItem.module.scss";
 import { highlightCaseInsensitive } from "@/shared/utils/highlight";
+import { Link } from "@tanstack/react-router";
 
 const ToDoItem = (props) => {
 	const { title, isDone, className = "", id } = props;
@@ -38,9 +38,9 @@ const ToDoItem = (props) => {
 			<label className={`${styles.label} visually-hidden`} htmlFor={id}>
 				{title}
 			</label>
-			<RouterLink to={`/tasks/${id}`} area-label="Task detail page">
+			<Link to={`/tasks/${id}`} area-label="Task detail page">
 				<span dangerouslySetInnerHTML={{ __html: hightlightedTitle }} />
-			</RouterLink>
+			</Link>
 			<button
 				className={styles.deleteButton}
 				aria-label="Delete"

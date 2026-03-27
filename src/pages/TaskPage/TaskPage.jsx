@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import tasksAPI from "@/shared/api/tasks";
+import { useParams } from "@tanstack/react-router";
 
-const TaskPage = (props) => {
-	const { params } = props;
-	const taskId = params.id;
+const TaskPage = () => {
+	const { id } = useParams({ strict: false });
 
 	const [task, setTask] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,7 @@ const TaskPage = (props) => {
 
 	useEffect(() => {
 		tasksAPI
-			.getById(taskId)
+			.getById(id)
 			.then((taskData) => {
 				setTask(taskData);
 				setHasError(false);

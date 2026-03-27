@@ -1,19 +1,9 @@
-import Router from "./routing/Router";
-import TasksPage from "@/pages/TasksPage";
-import TaskPage from "@/pages/TaskPage";
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from "@/shared/config/Router";
 import "./styles";
 
 const App = () => {
-	const routes = {
-		"/": TasksPage,
-		"/tasks/:id": TaskPage,
-		"*": () => (
-			<div>
-				<h2>404 Page not found</h2>
-			</div>
-		),
-	};
-	return <Router routes={routes} />;
+	return <RouterProvider router={router} />;
 };
 
 export default App;
