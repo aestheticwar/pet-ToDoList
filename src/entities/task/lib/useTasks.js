@@ -8,60 +8,13 @@ import {
 } from "react";
 import tasksAPI from "../../../shared/api/tasks";
 
-const TasksReducer = (state, action) => {
-	switch (action.type) {
-		case "SET_ALL": {
-			return Array.isArray(action.tasks) ? action.tasks : state;
-		}
-
-		case "ADD": {
-			return [...state, action.task];
-		}
-
-		case "TOGGLE_COMPLETE": {
-			const { id, isDone } = action;
-			return state.map((task) => {
-				return task.id === id ? { ...task, isDone } : task;
-			});
-		}
-
-		case "DELETE": {
-			return state.filter((task) => task.id !== action.id);
-		}
-
-		case "DELETE_ALL": {
-			return [];
-		}
-
-		default: {
-			return state;
-		}
-	}
-};
-
 const useTasks = () => {
-	const [tasks, dispatch] = useReducer(TasksReducer, []);
+	const tasks = [];
 	const [searchQuery, setSearchQuery] = useState("");
 	const [dissapearingTaskId, setDissapearingTaskId] = useState(null);
 	const [apearingTaskId, setApearingTaskId] = useState(null);
 
 	const newTaskInputRef = useRef(null);
-
-	useEffect(() => {
-		tasksAPI.getAll().then((tasks) => {
-			dispatch({ type: "SET_ALL", tasks });
-		});
-		newTaskInputRef.current.focus();
-	}, []);
-
-	const deleteAllTasks = useCallback(() => {
-		const isConfirm = confirm("Are you sure you want to delete tasks?");
-
-		if (isConfirm) {
-			tasksAPI.deleteAll(tasks).then(() => dispatch({ type: "DELETE_ALL" }));
-		}
-		newTaskInputRef.current.focus();
-	}, [tasks]);
 
 	const deleteTask = useCallback(
 		(task_id) => {
@@ -70,13 +23,6 @@ const useTasks = () => {
 				`Are you sure you want to delete task with name: ${deleteTaskName}?`,
 			);
 			if (isConfirm) {
-				tasksAPI.delete(task_id).then(() => {
-					setDissapearingTaskId(task_id);
-					setTimeout(() => {
-						dispatch({ type: "DELETE", id: task_id });
-						setDissapearingTaskId(null);
-					}, 400);
-				});
 			}
 			newTaskInputRef.current.focus();
 		},
@@ -123,7 +69,6 @@ const useTasks = () => {
 		tasks,
 		filteredTasks,
 		deleteTask,
-		deleteAllTasks,
 		toogleTaskCompleted,
 		searchQuery,
 		setSearchQuery,

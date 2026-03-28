@@ -1,5 +1,5 @@
 import { memo, useContext } from "react";
-import { TasksContext } from "../../model/TasksContext";
+import { TasksContext } from "../../lib/TasksContext";
 import styles from "./ToDoItem.module.scss";
 import { highlightCaseInsensitive } from "@/shared/utils/highlight";
 import { Link } from "@tanstack/react-router";
@@ -9,12 +9,13 @@ const ToDoItem = (props) => {
 	const {
 		firstIncompleteTaskRef,
 		firstIncompleteTaskId,
-		deleteTask,
 		toogleTaskCompleted,
 		dissapearingTaskId,
 		apearingTaskId,
 		searchQuery,
 	} = useContext(TasksContext);
+
+	const handleDeleteTask = (id) => {};
 
 	const hightlightedTitle = highlightCaseInsensitive(title, searchQuery);
 
