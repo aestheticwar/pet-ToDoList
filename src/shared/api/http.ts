@@ -35,7 +35,6 @@ export const http = async <T>(
 	const response = await fetch(`${BASE}${VERSION}${url}`, {
 		method,
 		signal,
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/json",
 			...headers,
