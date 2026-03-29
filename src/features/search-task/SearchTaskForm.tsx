@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { Field } from "@/shared/ui/Field";
-import { TasksContext } from "@/entities/todo";
+import { TasksContext } from "@/entities/task";
+import styles from "./SearchTaskForm.module.scss";
 
-const SearchTaskForm = ({ styles }) => {
+const SearchTaskForm = () => {
 	const { searchQuery, setSearchQuery } = useContext(TasksContext);
 
 	const onSubmit = (e) => {

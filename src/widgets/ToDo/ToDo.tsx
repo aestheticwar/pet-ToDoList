@@ -1,10 +1,10 @@
 import { AddTaskForm } from "@/features/add-task";
 import { SearchTaskForm } from "@/features/search-task";
 import ToDoInfo from "@/features/stats";
-import { ToDoList } from "@/entities/todo";
+import { ToDoList } from "@/entities/task";
 import { Button } from "@/shared/ui/Button";
 import { useContext } from "react";
-import { TasksContext } from "@/entities/todo";
+import { TasksContext } from "@/entities/task";
 import styles from "./ToDo.module.scss";
 
 const ToDo = () => {
@@ -12,9 +12,9 @@ const ToDo = () => {
 	return (
 		<div className={styles.todo}>
 			<h1 className={styles.title}>To Do List</h1>
-			<AddTaskForm styles={styles} />
-			<SearchTaskForm styles={styles} />
-			<ToDoInfo styles={styles} />
+			<AddTaskForm />
+			<SearchTaskForm />
+			<ToDoInfo />
 			<Button
 				onClick={() =>
 					firstIncompleteTaskRef.current?.scrollIntoView({
@@ -24,7 +24,7 @@ const ToDo = () => {
 			>
 				Show first incomplete task
 			</Button>
-			<ToDoList styles={styles} />
+			<ToDoList />
 		</div>
 	);
 };

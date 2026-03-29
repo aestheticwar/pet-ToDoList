@@ -6,7 +6,6 @@ import {
 	useEffect,
 	useReducer,
 } from "react";
-import tasksAPI from "../../../shared/api/tasks";
 
 const useTasks = () => {
 	const tasks = [];
@@ -29,11 +28,10 @@ const useTasks = () => {
 		[tasks],
 	);
 
-	const toogleTaskCompleted = useCallback(
-		(task_id, isDone) =>
-			tasksAPI.toogleComplite(task_id, isDone).then(() => {
-				dispatch({ type: "TOGGLE_COMPLETE", id: task_id, isDone });
-			}),
+	const toogleTaskCompleted = useCallback((task_id, isDone) =>
+		// tasksAPI.toogleComplite(task_id, isDone).then(() => {
+		// 	dispatch({ type: "TOGGLE_COMPLETE", id: task_id, isDone });
+		// }),
 		[],
 	);
 
@@ -43,16 +41,16 @@ const useTasks = () => {
 				title: newTaskTitle,
 				isDone: false,
 			};
-			tasksAPI.add(newTask).then((addedTask) => {
-				dispatch({ type: "ADD", task: addedTask });
-				clearTitle();
-				setSearchQuery("");
-				newTaskInputRef.current.focus();
-				setApearingTaskId(addedTask.id);
-				setTimeout(() => {
-					setApearingTaskId(null);
-				}, 400);
-			});
+			// tasksAPI.add(newTask).then((addedTask) => {
+			// 	dispatch({ type: "ADD", task: addedTask });
+			// 	clearTitle();
+			// 	setSearchQuery("");
+			// 	newTaskInputRef.current.focus();
+			// 	setApearingTaskId(addedTask.id);
+			// 	setTimeout(() => {
+			// 		setApearingTaskId(null);
+			// 	}, 400);
+			// });
 		}
 	}, []);
 
