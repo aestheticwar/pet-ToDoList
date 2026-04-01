@@ -13,10 +13,11 @@ const AddTaskForm = () => {
 		e.preventDefault();
 		const newTask: CreateTaskRequest = {
 			title: newTaskTitle,
-			author_user_id: 1,
+			author_user_id: 2,
 			description: "Описание задачи",
 		};
 		mutate(newTask);
+		setNewTaskTitle("");
 	};
 
 	return (

@@ -35,7 +35,6 @@ export const http = async <T>(
 	const response = await fetch(`${BASE}${VERSION}${url}`, {
 		method,
 		signal,
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/json",
 			...headers,
@@ -43,11 +42,16 @@ export const http = async <T>(
 		body: body !== undefined ? JSON.stringify(body) : undefined,
 	});
 
-	const data = (await response.json()) as T | ApiErrorResponse;
+	let data: T | ApiErrorResponse | null = null;
+
+	if (response.status !== 204) {
+		const text = await response.text();
+		data = text ? (JSON.parse(text) as T | ApiErrorResponse) : null;
+	}
 
 	if (!response.ok) {
 		throw new HttpError(
-			(data as ApiErrorResponse).message,
+			(data as ApiErrorResponse | null)?.message ?? "Request failed",
 			response.status,
 			data,
 		);

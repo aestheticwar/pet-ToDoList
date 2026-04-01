@@ -3,7 +3,7 @@ import { getTasks as getTasksApi, type GetTasksRequest } from "../../api";
 
 export const useTasks = (params: GetTasksRequest) => {
 	return useQuery({
-		queryKey: ["tasks", "list", params],
+		queryKey: ["tasks", params.user_id],
 		queryFn: () => getTasksApi(params),
 	});
 };
