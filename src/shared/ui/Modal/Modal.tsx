@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "../Button";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "./Modal.module.scss";
@@ -8,12 +8,13 @@ interface ModalProps {
 	title: string;
 	buttonLabel: string;
 	description?: string;
+	open: boolean;
+	setOpen: Dispatch<SetStateAction<boolean>>;
 	children?: React.ReactNode;
 }
 
 export const Modal = (props: ModalProps) => {
-	const { title, buttonLabel, description, children } = props;
-	const [open, setOpen] = useState<boolean>(false);
+	const { title, buttonLabel, description, children, open, setOpen } = props;
 
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
