@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/shared/ui/Button";
 import { Field } from "@/shared/ui/Field";
-import { useCreateTask } from "@/entities/task/model/hooks/useCreateTask";
+import { useCreateTask } from "@/features/add-task/model/useCreateTask";
 import { CreateTaskRequest } from "@/entities/task/api";
 import styles from "./AddTaskForm.module.scss";
 

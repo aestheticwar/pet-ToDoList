@@ -6,31 +6,33 @@ import styles from "./Modal.module.scss";
 
 interface ModalProps {
 	title: string;
-	className?: string;
+	buttonLabel: string;
+	description?: string;
+	children?: React.ReactNode;
 }
 
 export const Modal = (props: ModalProps) => {
-	const { title, className = "" } = props;
-
+	const { title, buttonLabel, description, children } = props;
 	const [open, setOpen] = useState<boolean>(false);
-	const handleClick = () => {
-		setOpen((prev) => !prev);
-	};
+
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger className={styles.trigger} asChild>
-				<button onClick={handleClick}>Modal</button>
+				<Button>{buttonLabel}</Button>
 			</Dialog.Trigger>
 			<Dialog.Portal>
 				<Dialog.Overlay className={styles.overlay} />
 				<Dialog.Content className={styles.content}>
-					<Dialog.Title>{title}</Dialog.Title>
-					<Dialog.Description />
 					<Dialog.Close asChild>
-						<Button className={styles.close} onClick={handleClick}>
+						<Button className={styles.close}>
 							<Cross2Icon />
 						</Button>
 					</Dialog.Close>
+					<Dialog.Title className={styles.title}>{title}</Dialog.Title>
+					{description && (
+						<Dialog.Description>{description}</Dialog.Description>
+					)}
+					<div className={styles.main}>{children}</div>
 				</Dialog.Content>
 			</Dialog.Portal>
 		</Dialog.Root>

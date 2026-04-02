@@ -1,4 +1,3 @@
-import TaskPage from "@/pages/TaskPage";
 import TasksPage from "@/pages/TasksPage";
 import {
 	createRootRoute,
@@ -14,12 +13,6 @@ const indexRoute = createRoute({
 	component: () => <TasksPage />,
 });
 
-const taskRoute = createRootRoute({
-	getParentRoute: () => rootRoute,
-	path: "/tasks/$id",
-	component: () => <TaskPage />,
-});
-
 const notFoundRoute = createRootRoute({
 	getParentRoute: () => rootRoute,
 	path: "*",
@@ -29,6 +22,6 @@ const notFoundRoute = createRootRoute({
 		</div>
 	),
 });
-const routeTree = rootRoute.addChildren([indexRoute, taskRoute, notFoundRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, notFoundRoute]);
 
 export const router = createRouter({ routeTree });
