@@ -11,15 +11,24 @@ interface ModalProps {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	children?: React.ReactNode;
+	hasTriger?: boolean;
 }
 
 export const Modal = (props: ModalProps) => {
-	const { title, buttonLabel, description, children, open, setOpen } = props;
+	const {
+		title,
+		buttonLabel,
+		description,
+		children,
+		open,
+		setOpen,
+		hasTriger = true,
+	} = props;
 
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger className={styles.trigger} asChild>
-				<Button>{buttonLabel}</Button>
+				{hasTriger && <Button>{buttonLabel}</Button>}
 			</Dialog.Trigger>
 			<Dialog.Portal>
 				<Dialog.Overlay className={styles.overlay} />

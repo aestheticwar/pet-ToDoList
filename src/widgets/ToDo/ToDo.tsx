@@ -1,4 +1,3 @@
-import { AddTaskForm } from "@/features/add-task";
 import { SearchTaskForm } from "@/features/search-task";
 import ToDoInfo from "@/features/stats";
 import { ToDoList } from "@/entities/task";
@@ -10,7 +9,6 @@ const ToDo = () => {
 		<div className={styles.todo}>
 			<h1 className={styles.title}>To Do List</h1>
 			<AddTaskModal />
-			<AddTaskForm />
 			<SearchTaskForm />
 			<ToDoInfo />
 			<ToDoList />
